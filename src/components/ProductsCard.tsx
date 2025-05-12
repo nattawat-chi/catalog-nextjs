@@ -10,10 +10,18 @@ import {
 import { Product } from "@/types/ProductsType";
 import { getAllProducts } from "@/lib/services/productApi";
 import { useEffect, useState } from "react";
+import { ProductsCardProps } from "@/types/ProductsType";
 
-const ProductsCard = () => {
+const ProductsCard = ({ selectedCategory }: ProductsCardProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
+
+  // Filter products based on the selected category
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => {
+        return product.category === selectedCategory;
+      })
+    : products;
 
   // Function to toggle the expanded state of a product
   const toggleExpand = (id: number) => {
@@ -27,6 +35,9 @@ const ProductsCard = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getAllProducts();
+      console.log("Fetched categories:", [
+        ...new Set(data.map((p) => p.category)),
+      ]);
       setProducts(data);
     };
     fetchProducts();
@@ -34,7 +45,7 @@ const ProductsCard = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ">
-      {products.map((product) => {
+      {filteredProducts.map((product) => {
         const isExpanded = expandedProductIds.includes(product.id);
         const shortDescription =
           product.description.length > 100

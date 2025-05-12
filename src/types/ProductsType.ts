@@ -10,3 +10,12 @@ export interface Product {
     count: number;
   };
 }
+
+export interface ProductsCardProps {
+  selectedCategory: string;
+}
+
+export interface FeatureRadioProps {
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+}
