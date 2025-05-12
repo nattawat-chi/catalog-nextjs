@@ -8,20 +8,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Product } from "@/types/ProductsType";
-import { getAllProducts } from "@/lib/services/productApi";
+import { GetAllProducts } from "@/lib/services/ProductApi";
 import { useEffect, useState } from "react";
-import { ProductsCardProps } from "@/types/ProductsType";
+import { ProductsDetailsProps } from "@/types/ProductsType";
+import useDebounce from "@/hooks/useDebounce";
 
-const ProductsCard = ({ selectedCategory }: ProductsCardProps) => {
+const ProductsDetails = ({
+  selectedCategory,
+  searchQuery,
+}: ProductsDetailsProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
 
-  // Filter products based on the selected category
-  const filteredProducts = selectedCategory
-    ? products.filter((product) => {
-        return product.category === selectedCategory;
-      })
-    : products;
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Filter products based on the search query and selected category
+  const filteredProducts = products.filter((p) => {
+    const matchCategory = selectedCategory
+      ? p.category === selectedCategory
+      : true;
+    const matchTitle = p.title
+      .toLowerCase()
+      .includes(debouncedSearchQuery.toLowerCase());
+    return matchCategory && matchTitle;
+  });
 
   // Function to toggle the expanded state of a product
   const toggleExpand = (id: number) => {
@@ -34,10 +44,7 @@ const ProductsCard = ({ selectedCategory }: ProductsCardProps) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getAllProducts();
-      console.log("Fetched categories:", [
-        ...new Set(data.map((p) => p.category)),
-      ]);
+      const data = await GetAllProducts();
       setProducts(data);
     };
     fetchProducts();
@@ -82,4 +89,4 @@ const ProductsCard = ({ selectedCategory }: ProductsCardProps) => {
     </div>
   );
 };
-export default ProductsCard;
+export default ProductsDetails;

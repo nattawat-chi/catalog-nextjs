@@ -11,11 +11,17 @@ export interface Product {
   };
 }
 
-export interface ProductsCardProps {
+export interface ProductsDetailsProps {
   selectedCategory: string;
+  searchQuery: string;
 }
 
 export interface FeatureRadioProps {
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
 }
+
+export type SearchProps = {
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
+};
