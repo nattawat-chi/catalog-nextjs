@@ -80,7 +80,7 @@ const ProductsDetails = ({
               </div>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <img src={product.image} />
+              <img src={product.images[0]} alt={product.title} />
               <div>Price: {product.price} $</div>
             </CardContent>
           </Card>

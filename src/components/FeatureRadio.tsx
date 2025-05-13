@@ -1,6 +1,15 @@
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Label } from "@/components/ui/label";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { FeatureRadioProps } from "@/types/ProductsType";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  // DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
 
 const FeatureRadio = ({
   selectedCategory,
@@ -8,7 +17,7 @@ const FeatureRadio = ({
 }: FeatureRadioProps) => {
   return (
     <div>
-      <RadioGroup
+      {/* <RadioGroup
         className="mt-2 flex justify-center"
         value={selectedCategory}
         onValueChange={onCategoryChange}
@@ -33,7 +42,48 @@ const FeatureRadio = ({
           <RadioGroupItem value="women's clothing" id="womens" />
           <Label htmlFor="womens">Women</Label>
         </div>
-      </RadioGroup>
+      </RadioGroup> */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">Filter</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup
+            value={selectedCategory}
+            onValueChange={onCategoryChange}
+          >
+            <DropdownMenuRadioItem value="">ALL</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="beauty">Beauty</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="furniture">
+              Furniture
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="laptops">
+              Laptops
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="mens-shirts">
+              Mens Shirts
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="mens-shoes">
+              Mens Shoes
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="skin-care">
+              Skin Care
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="smartphones">
+              Smartphones
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="vehicle">
+              Vehicle
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="womens-dresses">
+              Womens Dresses
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="womens-shoes">
+              Womens Shoes
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
