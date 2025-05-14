@@ -12,6 +12,8 @@ import { GetAllProducts } from "@/lib/services/ProductApi";
 import { useEffect, useState } from "react";
 import { ProductsDetailsProps } from "@/types/ProductsType";
 import useDebounce from "@/hooks/useDebounce";
+import { useCart } from "@/hooks/useCart";
+import { Button } from "./ui/button";
 
 const ProductsDetails = ({
   selectedCategory,
@@ -20,7 +22,10 @@ const ProductsDetails = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
 
+  // debounce the search query to avoid excessive re-renders
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  // use the custom hook to manage the cart
+  const { addToCart } = useCart();
 
   // Filter products based on the search query and selected category
   const filteredProducts = products.filter((p) => {
@@ -82,6 +87,22 @@ const ProductsDetails = ({
             <CardContent className="grid gap-4">
               <img src={product.images[0]} alt={product.title} />
               <div>Price: {product.price} $</div>
+              <Button
+                onClick={() => {
+                  const cartItem = {
+                    id: product.id.toString(),
+                    title: product.title,
+                    price: product.price,
+                    quantity: 1,
+                    images: product.images,
+                  };
+                  console.log("Adding to cart:", cartItem);
+                  alert("Added to cart");
+                  addToCart(cartItem);
+                }}
+              >
+                Add to Cart
+              </Button>
             </CardContent>
           </Card>
         );
