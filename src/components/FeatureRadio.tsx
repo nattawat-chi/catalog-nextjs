@@ -17,54 +17,49 @@ const FeatureRadio = ({
 }: FeatureRadioProps) => {
   return (
     <div>
-      {/* <RadioGroup
-        className="mt-2 flex justify-center"
-        value={selectedCategory}
-        onValueChange={onCategoryChange}
-      >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="" id="all" />
-          <Label htmlFor="all">ALL</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="electronics" id="electronics" />
-          <Label htmlFor="electronics">Electronics</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="jewelery" id="jewelery" />
-          <Label htmlFor="jewelery">Jewelery</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="men's clothing" id="mens" />
-          <Label htmlFor="mens">Men</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="women's clothing" id="womens" />
-          <Label htmlFor="womens">Women</Label>
-        </div>
-      </RadioGroup> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">Filter</Button>
+          <Button variant="outline">Select Category</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="max-h-72">
           <DropdownMenuRadioGroup
             value={selectedCategory}
             onValueChange={onCategoryChange}
           >
             <DropdownMenuRadioItem value="">ALL</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="beauty">Beauty</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="fragrances">
+              Fragrances
+            </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="furniture">
               Furniture
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="groceries">
+              Groceries
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="home-decoration">
+              Home Decoration
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="kitchen-accessories">
+              Kitchen Accessories
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="laptops">
               Laptops
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mens-shirts">
-              Mens Shirts
+              Men's Shirts
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mens-shoes">
-              Mens Shoes
+              Men's Shoes
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="mens-watches">
+              Men's Watches
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="mobile-accessories">
+              Mobile Accessories
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="motorcycle">
+              Motorcycle
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="skin-care">
               Skin Care
@@ -72,14 +67,33 @@ const FeatureRadio = ({
             <DropdownMenuRadioItem value="smartphones">
               Smartphones
             </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="sports-accessories">
+              Sports Accessories
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="sunglasses">
+              Sunglasses
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="tablets">
+              Tablets
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="tops">Tops</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="vehicle">
               Vehicle
             </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="womens-bags">
+              Women's Bags
+            </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-dresses">
-              Womens Dresses
+              Women's Dresses
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="womens-jewellery">
+              Women's Jewellery
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-shoes">
-              Womens Shoes
+              Women's Shoes
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="womens-watches">
+              Women's Watches
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>

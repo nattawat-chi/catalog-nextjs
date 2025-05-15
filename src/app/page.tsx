@@ -15,9 +15,9 @@ export default function Home() {
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
 
-      <div className="flex justify-end  items-center px-4 py-2">
-        <h1 className="text-2xl font-bold text-center w-full">Products List</h1>
-        <div className="absolute right-12 lg:right-32">
+      <div className="grid grid-cols-2 items-center container mx-auto px-4 py-2">
+        <h1 className="text-2xl font-bold pl-1">Our Collection</h1>
+        <div className="justify-self-end">
           <FeatureRadio
             selectedCategory={selectedCategory}
             onCategoryChange={setSelectedCategory}

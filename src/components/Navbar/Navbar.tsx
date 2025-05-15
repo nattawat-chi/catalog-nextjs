@@ -6,7 +6,6 @@ import DropdownListMenu from "./DropdownListMenu";
 import Logo from "./Logo";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useCartStore } from "@/store/useCartStore";
 
 const Navbar = () => {
@@ -22,7 +21,13 @@ const Navbar = () => {
         sm:flex-row sm:items-center gap-4"
       >
         {/* Logo */}
-        <Logo />
+        <div className="flex items-center gap-4 px-4 py-2">
+          <Logo />
+          <div className="playfair-display text-3xl tracking-wide">
+            AllureMart
+          </div>{" "}
+          {/* optional */}
+        </div>
         {/* DarkMode & Profile */}
         <div className="flex gap-4">
           <DarkMode />

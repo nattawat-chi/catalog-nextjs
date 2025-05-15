@@ -1,15 +1,27 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 @layer components {
   .container {
-    @apply px-8 mx-auto;
+    @apply px-12 mx-auto;
   }
+}
+.playfair-display {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
 }
 
 @theme inline {
+  --geist-font: "Playfair Display", sans-serif;
+  --geist-font-mono: "Playfair Display", monospace;
+  --geist-font-sans: "Playfair Display", sans-serif;
+  --geist-font-mono: "Playfair Display", monospace;
+  --geist-font-serif: "Playfair Display", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

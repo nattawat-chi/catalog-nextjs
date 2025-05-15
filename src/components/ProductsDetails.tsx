@@ -8,14 +8,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Product } from "@/types/ProductsType";
-import { GetAllProducts } from "@/lib/services/ProductApi";
+import { GetAllProducts, GetFromFilter } from "@/lib/services/ProductApi";
 import { useEffect, useState } from "react";
 import { ProductsDetailsProps } from "@/types/ProductsType";
 import useDebounce from "@/hooks/useDebounce";
-// import { useCart } from "@/hooks/useCart";
 import { useCartStore } from "@/store/useCartStore";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { useAuth } from "@clerk/nextjs";
 
 const ProductsDetails = ({
   selectedCategory,
@@ -24,6 +24,7 @@ const ProductsDetails = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
 
+  const { isSignedIn } = useAuth();
   // debounce the search query to avoid excessive re-renders
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   // use the custom hook to manage the cart
@@ -51,11 +52,29 @@ const ProductsDetails = ({
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await GetAllProducts();
-      setProducts(data);
+      try {
+        let data: Product[] = [];
+        if (debouncedSearchQuery) {
+          const all = selectedCategory
+            ? await GetFromFilter({ category: selectedCategory })
+            : await GetAllProducts();
+          data = all.filter((product) =>
+            product.title
+              .toLowerCase()
+              .includes(debouncedSearchQuery.toLowerCase())
+          );
+        } else {
+          data = selectedCategory
+            ? await GetFromFilter({ category: selectedCategory })
+            : await GetAllProducts();
+        }
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
     };
     fetchProducts();
-  }, []);
+  }, [selectedCategory, debouncedSearchQuery]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ">
@@ -66,9 +85,9 @@ const ProductsDetails = ({
             ? product.description.slice(0, 100) + " ..."
             : product.description;
         return (
-          <Card key={product.id}>
+          <Card key={product.id} className="min-w-64">
             <CardHeader>
-              <CardTitle>{product.title}</CardTitle>
+              <CardTitle className="text-xl">{product.title}</CardTitle>
               <CardDescription>
                 {isExpanded ? product.description : shortDescription}
                 {product.description.length > 100 && (
@@ -86,28 +105,35 @@ const ProductsDetails = ({
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="grid gap-4">
-              <img src={product.images[0]} alt={product.title} />
+            <CardContent className="grid gap-4 items-center justify-center">
+              <img
+                src={product.images[0]}
+                alt={product.title}
+                className="max-w-62"
+              />
               <div>Price: {product.price} $</div>
-              <Button
-                onClick={() => {
-                  const cartItem = {
-                    id: product.id.toString(),
-                    title: product.title,
-                    price: product.price,
-                    quantity: 1,
-                    images: product.images,
-                  };
-                  // console.log("Adding to cart:", cartItem);
-                  toast("Product added to cart", {
-                    description: `${product.title} has been added to your cart.`,
-                    duration: 2000,
-                  });
-                  addToCart(cartItem);
-                }}
-              >
-                Add to Cart
-              </Button>
+              {isSignedIn && (
+                <Button
+                  onClick={() => {
+                    const cartItem = {
+                      id: product.id.toString(),
+                      title: product.title,
+                      price: product.price,
+                      quantity: 1,
+                      images: product.images,
+                    };
+                    // console.log("Adding to cart:", cartItem);
+                    toast("Product added to cart", {
+                      description: `${product.title} has been added to your cart.`,
+                      duration: 2000,
+                    });
+                    addToCart(cartItem);
+                  }}
+                  className=" font-bold py-2 px-4 rounded"
+                >
+                  Add to Cart
+                </Button>
+              )}
             </CardContent>
           </Card>
         );
