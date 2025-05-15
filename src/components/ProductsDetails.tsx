@@ -12,8 +12,10 @@ import { GetAllProducts } from "@/lib/services/ProductApi";
 import { useEffect, useState } from "react";
 import { ProductsDetailsProps } from "@/types/ProductsType";
 import useDebounce from "@/hooks/useDebounce";
-import { useCart } from "@/hooks/useCart";
+// import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/store/useCartStore";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 const ProductsDetails = ({
   selectedCategory,
@@ -25,7 +27,7 @@ const ProductsDetails = ({
   // debounce the search query to avoid excessive re-renders
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   // use the custom hook to manage the cart
-  const { addToCart } = useCart();
+  const { addToCart } = useCartStore();
 
   // Filter products based on the search query and selected category
   const filteredProducts = products.filter((p) => {
@@ -96,8 +98,11 @@ const ProductsDetails = ({
                     quantity: 1,
                     images: product.images,
                   };
-                  console.log("Adding to cart:", cartItem);
-                  alert("Added to cart");
+                  // console.log("Adding to cart:", cartItem);
+                  toast("Product added to cart", {
+                    description: `${product.title} has been added to your cart.`,
+                    duration: 2000,
+                  });
                   addToCart(cartItem);
                 }}
               >

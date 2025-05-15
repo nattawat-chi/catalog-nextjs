@@ -18,7 +18,7 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 const DropdownListMenu = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className="cursor-pointer" asChild>
         <Button variant="outline">
           <AlignLeft />
           <UserIcon />
@@ -46,9 +46,11 @@ const DropdownListMenu = () => {
         <SignedIn>
           {links.map((item, index) => {
             return (
-              <DropdownMenuItem key={index}>
-                <Link href={item.href}>{item.label}</Link>
-              </DropdownMenuItem>
+              <Link href={item.href} key={index}>
+                <DropdownMenuItem className="cursor-pointer">
+                  {item.label}
+                </DropdownMenuItem>
+              </Link>
             );
           })}
           <DropdownMenuSeparator />

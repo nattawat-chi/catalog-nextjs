@@ -1,16 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/hooks/useCart";
+// import { useCart } from "@/hooks/useCart";
+import { useCartStore } from "@/store/useCartStore";
 
 function CartPage() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCartStore();
 
   return (
     <div>
       <h1 className="text-2xl font-bold pb-3">My Cart</h1>
       {cart.length === 0 ? (
-        <p>ไม่มีสินค้าในตะกร้า</p>
+        <p>No products in the cart. </p>
       ) : (
         <ul>
           {cart.map((item) => (

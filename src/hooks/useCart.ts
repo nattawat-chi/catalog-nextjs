@@ -9,6 +9,8 @@ export function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
+  console.log("your cart", cart);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedCart = localStorage.getItem(CART_KEY);
