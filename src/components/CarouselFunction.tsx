@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Link from "next/link";
 
 function CarouselFunction({
   searchQuery,
@@ -55,12 +56,14 @@ function CarouselFunction({
             return (
               <CarouselItem key={product.id} className="flex justify-center">
                 <div className="flex flex-col items-center gap-4">
-                  <img
-                    src={product.images[0]}
-                    alt={product.title}
-                    className="lg:w-82 lg:h-82 w-50 h-50"
-                    loading="lazy"
-                  />
+                  <Link href={`/products/${product.id}`}>
+                    <img
+                      src={product.images[0]}
+                      alt={product.title}
+                      className="lg:w-82 lg:h-82 w-50 h-50"
+                      loading="lazy"
+                    />
+                  </Link>
                   <p className="text-white font-semibold">{product.title}</p>
                   <span className="text-purple-400 font-bold">
                     ${product.price}

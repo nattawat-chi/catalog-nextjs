@@ -16,6 +16,8 @@ import { useCartStore } from "@/store/useCartStore";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
+import Link from "next/link";
 
 const ProductsDetails = ({
   selectedCategory,
@@ -87,8 +89,21 @@ const ProductsDetails = ({
         return (
           <Card key={product.id} className="min-w-64">
             <CardHeader>
-              <CardTitle className="text-xl">{product.title}</CardTitle>
-              <CardDescription>
+              <Link href={`/products/${product.id}`}>
+                <Image
+                  src={product.images[0]}
+                  alt={product.title}
+                  width={300}
+                  height={300}
+                  className="mx-auto mb-2"
+                />
+              </Link>
+              <Link href={`/products/${product.id}`}>
+                <CardTitle className="text-xl hover:text-purple-400 transition-colors duration-200">
+                  {product.title}
+                </CardTitle>
+              </Link>
+              <CardDescription className=" text-sm mt-1">
                 {isExpanded ? product.description : shortDescription}
                 {product.description.length > 100 && (
                   <button
@@ -105,13 +120,10 @@ const ProductsDetails = ({
                 </CardTitle>
               </div>
             </CardHeader>
-            <CardContent className="grid gap-4 items-center justify-center">
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="lg:w-64 lg:h-64 w-42 h-42 object-cover shadow-lg"
-              />
-              <div>Price: {product.price} $</div>
+            <CardContent className="grid gap-4">
+              <div className="text-lg font-semibold text-purple-400">
+                Price: {product.price} $
+              </div>
               {isSignedIn && (
                 <Button
                   onClick={() => {
@@ -122,14 +134,14 @@ const ProductsDetails = ({
                       quantity: 1,
                       images: product.images,
                     };
+
                     // console.log("Adding to cart:", cartItem);
-                    toast("Product added to cart", {
-                      description: `${product.title} has been added to your cart.`,
+                    toast.success(`${product.title} added to cart`, {
                       duration: 2000,
                     });
                     addToCart(cartItem);
                   }}
-                  className=" font-bold py-2 px-4 rounded"
+                  className=" font-bold py-2 px-4 rounded cursor-pointer"
                 >
                   Add to Cart
                 </Button>
