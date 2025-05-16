@@ -109,7 +109,7 @@ const ProductsDetails = ({
               <img
                 src={product.images[0]}
                 alt={product.title}
-                className="max-w-62"
+                className="lg:w-64 lg:h-64 w-42 h-42 object-cover shadow-lg"
               />
               <div>Price: {product.price} $</div>
               {isSignedIn && (

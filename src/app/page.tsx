@@ -4,6 +4,7 @@ import ProductsDetails from "@/components/ProductsDetails";
 import FeatureRadio from "@/components/FeatureRadio";
 import { useState } from "react";
 import Search from "@/components/Search";
+import CarouselFunction from "@/components/CarouselFunction";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -11,6 +12,12 @@ export default function Home() {
 
   return (
     <div>
+      <div>
+        <CarouselFunction
+          searchQuery={searchQuery}
+          selectedCategory={selectedCategory}
+        />
+      </div>
       <div className="flex justify-center items-center  py-2">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
