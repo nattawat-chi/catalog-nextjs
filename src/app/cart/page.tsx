@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/useCartStore";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import { toast } from "sonner";
 
 function CartPage() {
   const { cart, removeFromCart, clearCart } = useCartStore();
@@ -49,7 +50,12 @@ function CartPage() {
                 <div className="ml-auto">
                   <Button
                     variant="destructive"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => {
+                      removeFromCart(item.id);
+                      toast.warning(`${item.title} removed from cart`, {
+                        duration: 2000,
+                      });
+                    }}
                     className="cursor-pointer"
                   >
                     Remove
@@ -66,7 +72,12 @@ function CartPage() {
             </p>
             <Button
               variant="outline"
-              onClick={clearCart}
+              onClick={() => {
+                clearCart();
+                toast.warning(`Cart cleared`, {
+                  duration: 2000,
+                });
+              }}
               className="cursor-pointer"
             >
               Clear Cart
