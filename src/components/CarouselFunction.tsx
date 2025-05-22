@@ -1,7 +1,3 @@
-import { Product } from "@/types/ProductsType";
-import { useEffect, useState } from "react";
-import useDebounce from "@/hooks/useDebounce";
-import { GetAllProducts, GetFromFilter } from "@/lib/services/ProductApi";
 import {
   Carousel,
   CarouselContent,
@@ -11,6 +7,8 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Link from "next/link";
+import useFilteredProducts from "@/hooks/useFilteredProducts";
+import Image from "next/image";
 
 function CarouselFunction({
   searchQuery,
@@ -19,59 +17,35 @@ function CarouselFunction({
   searchQuery: string;
   selectedCategory: string;
 }) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = useFilteredProducts(searchQuery, selectedCategory);
 
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let data: Product[] = [];
-        if (debouncedSearchQuery) {
-          const all = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
-          data = all.filter((product) =>
-            product.title
-              .toLowerCase()
-              .includes(debouncedSearchQuery.toLowerCase())
-          );
-        } else {
-          data = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
-        }
-        setProducts(data.sort(() => Math.random() - 0.5));
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchProducts();
-  }, [selectedCategory, debouncedSearchQuery]);
   return (
-    <div className="w-full  max-w-3xl mx-auto py-6">
+    <div className="w-full max-w-3xl mx-auto py-6">
       <Carousel plugins={[Autoplay({ delay: 3000 })]}>
         <CarouselContent>
-          {products.map((product) => {
-            return (
-              <CarouselItem key={product.id} className="flex justify-center">
-                <div className="flex flex-col items-center gap-4">
-                  <Link href={`/products/${product.id}`}>
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="lg:w-82 lg:h-82 w-50 h-50"
-                      loading="lazy"
-                    />
-                  </Link>
-                  <p className="text-white font-semibold">{product.title}</p>
-                  <span className="text-purple-400 font-bold">
-                    ${product.price}
-                  </span>
-                </div>
-              </CarouselItem>
-            );
-          })}
+          {products.map((product) => (
+            <CarouselItem key={product.id} className="flex justify-center">
+              <div className="flex flex-col items-center gap-4 text-center">
+                <Link
+                  href={`/product-detail/${product.id}`}
+                  className="relative w-80 md:w-90 aspect-square rounded-xl overflow-hidden"
+                >
+                  <Image
+                    src={product.images[0]}
+                    alt={product.title}
+                    fill
+                    sizes="(min-width: 768px) 200px, 100vw "
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </Link>
+                <p className="text-white font-semibold">{product.title}</p>
+                <span className="text-purple-400 font-bold">
+                  ${product.price.toFixed(2)}
+                </span>
+              </div>
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

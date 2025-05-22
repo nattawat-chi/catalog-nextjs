@@ -7,41 +7,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Product } from "@/types/ProductsType";
-import { GetAllProducts, GetFromFilter } from "@/lib/services/ProductApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProductsDetailsProps } from "@/types/ProductsType";
-import useDebounce from "@/hooks/useDebounce";
 import { useCartStore } from "@/store/useCartStore";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import useFilteredProducts from "@/hooks/useFilteredProducts";
 
 const ProductsDetails = ({
   selectedCategory,
   searchQuery,
 }: ProductsDetailsProps) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = useFilteredProducts(searchQuery, selectedCategory);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
 
   const { isSignedIn } = useAuth();
-  // debounce the search query to avoid excessive re-renders
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   // use the custom hook to manage the cart
   const { addToCart } = useCartStore();
-
-  // Filter products based on the search query and selected category
-  const filteredProducts = products.filter((p) => {
-    const matchCategory = selectedCategory
-      ? p.category === selectedCategory
-      : true;
-    const matchTitle = p.title
-      .toLowerCase()
-      .includes(debouncedSearchQuery.toLowerCase());
-    return matchCategory && matchTitle;
-  });
 
   // Function to toggle the expanded state of a product
   const toggleExpand = (id: number) => {
@@ -52,35 +37,9 @@ const ProductsDetails = ({
     );
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let data: Product[] = [];
-        if (debouncedSearchQuery) {
-          const all = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
-          data = all.filter((product) =>
-            product.title
-              .toLowerCase()
-              .includes(debouncedSearchQuery.toLowerCase())
-          );
-        } else {
-          data = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
-        }
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchProducts();
-  }, [selectedCategory, debouncedSearchQuery]);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ">
-      {filteredProducts.map((product) => {
+      {products.map((product) => {
         const isExpanded = expandedProductIds.includes(product.id);
         const shortDescription =
           product.description.length > 100
@@ -89,7 +48,7 @@ const ProductsDetails = ({
         return (
           <Card key={product.id} className="min-w-64">
             <CardHeader>
-              <Link href={`/products/${product.id}`}>
+              <Link href={`/product-detail/${product.id}`}>
                 <Image
                   src={product.images[0]}
                   alt={product.title}
@@ -98,7 +57,7 @@ const ProductsDetails = ({
                   className="mx-auto mb-2"
                 />
               </Link>
-              <Link href={`/products/${product.id}`}>
+              <Link href={`/product-detail/${product.id}`}>
                 <CardTitle className="text-xl hover:text-purple-400 transition-colors duration-200">
                   {product.title}
                 </CardTitle>
@@ -134,8 +93,6 @@ const ProductsDetails = ({
                       quantity: 1,
                       images: product.images,
                     };
-
-                    // console.log("Adding to cart:", cartItem);
                     toast.success(`${product.title} added to cart`, {
                       duration: 2000,
                     });

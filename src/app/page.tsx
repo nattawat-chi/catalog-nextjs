@@ -1,40 +1,34 @@
 "use client";
 
-import ProductsDetails from "@/components/ProductsDetails";
-import FeatureRadio from "@/components/FeatureRadio";
-import { useState } from "react";
-import Search from "@/components/Search";
 import CarouselFunction from "@/components/CarouselFunction";
+import SampleProducts from "@/components/SampleProducts";
+import { useState } from "react";
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  // const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div>
-      <div>
-        <CarouselFunction
-          searchQuery={searchQuery}
-          selectedCategory={selectedCategory}
-        />
-      </div>
-      <div className="flex justify-center items-center  py-2">
-        <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      </div>
-
-      <div className="grid grid-cols-2 items-center container mx-auto px-4 py-2">
-        <h1 className="text-2xl font-bold pl-1">Our Collection</h1>
-        <div className="justify-self-end">
-          <FeatureRadio
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
+    <main>
+      <section className="text-center space-y-4">
+        <h1 className="text-4xl font-bold">Welcome to AllureMart</h1>
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          Discover a modern selection of stylish, high-quality products designed
+          to elevate your lifestyle — from sleek home decor and functional
+          kitchen accessories to everyday essentials that blend design and
+          simplicity.
+        </p>
+        <section>
+          <CarouselFunction
+            searchQuery={searchQuery}
+            selectedCategory="Furniture"
           />
-        </div>
-      </div>
-      <ProductsDetails
-        selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
-      />
-    </div>
+        </section>
+        <SampleProducts
+          searchQuery={searchQuery}
+          selectedCategory="kitchen-accessories"
+        />
+      </section>
+    </main>
   );
 }

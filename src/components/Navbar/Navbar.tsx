@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <nav>
       <div
-        className="container flex flex-col justify-between py-8 
+        className="container flex flex-col justify-between py-4
         sm:flex-row sm:items-center gap-4"
       >
         {/* Logo */}
@@ -26,6 +26,12 @@ const Navbar = () => {
           <div className="playfair-display text-3xl tracking-wide">
             AllureMart
           </div>{" "}
+          <Link
+            href="/products"
+            className="text-sm font-medium text-muted-foreground hover:underline"
+          >
+            Browse all products →
+          </Link>
           {/* optional */}
         </div>
         {/* DarkMode & Profile */}
