@@ -1,43 +1,59 @@
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { Product } from "@/types/ProductsType";
-import { GetAllProducts, GetFromFilter } from "@/lib/services/ProductApi";
 
-const useFilteredProducts = (searchQuery: string, selectedCategory: string) => {
+interface UseFilteredProductsResult {
+  products: Product[];
+  total: number;
+  loading: boolean;
+}
+
+const useFilteredProducts = (
+  searchQuery: string,
+  selectedCategory: string,
+  page: number = 1
+): UseFilteredProductsResult => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const limit = 6;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let data: Product[] = [];
+        setLoading(true);
+        const skip = (page - 1) * limit;
 
-        if (debouncedSearchQuery) {
-          const all = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
+        const url =
+          selectedCategory && !debouncedSearchQuery.trim()
+            ? `https://dummyjson.com/products/category/${encodeURIComponent(
+                selectedCategory
+              )}?limit=${limit}&skip=${skip}`
+            : debouncedSearchQuery.trim()
+            ? `https://dummyjson.com/products/search?q=${encodeURIComponent(
+                debouncedSearchQuery
+              )}&limit=${limit}&skip=${skip}`
+            : `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
 
-          data = all.filter((product) =>
-            product.title
-              .toLowerCase()
-              .includes(debouncedSearchQuery.toLowerCase())
-          );
-        } else {
-          data = selectedCategory
-            ? await GetFromFilter({ category: selectedCategory })
-            : await GetAllProducts();
-        }
+        const res = await fetch(url);
+        const json = await res.json();
+        let results = json.products || [];
 
-        setProducts(data.sort(() => Math.random() - 0.5));
-      } catch (error) {
-        console.error("Error fetching products:", error);
+        setProducts(results);
+        setTotal(json.total || results.length);
+        setLoading(false);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setProducts([]);
+        setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [selectedCategory, debouncedSearchQuery]);
+  }, [debouncedSearchQuery, selectedCategory, page]);
 
-  return products;
+  return { products, loading, total };
 };
 
 export default useFilteredProducts;

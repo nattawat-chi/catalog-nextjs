@@ -2,27 +2,24 @@
 
 import ProductsDetails from "@/components/ProductsDetails";
 import FeatureRadio from "@/components/FeatureRadio";
-import Search from "@/components/Search";
 import { useState } from "react";
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="container mx-auto px-4 py-10 space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+    <div>
+      <div className="flex flex-col md:flex-row justify-between items-center px-4">
+        <h2>
+          <span className="text-xl font-bold text-white">Our Products</span>
+        </h2>
         <FeatureRadio
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
       </div>
 
-      <ProductsDetails
-        selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
-      />
+      <ProductsDetails selectedCategory={selectedCategory} />
     </div>
   );
 }

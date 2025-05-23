@@ -9,7 +9,11 @@ function SampleProducts({
   searchQuery: string;
   selectedCategory: string;
 }) {
-  const products = useFilteredProducts(searchQuery, selectedCategory);
+  const products = useFilteredProducts(
+    searchQuery,
+    selectedCategory,
+    1
+  ).products;
   const randomProducts = [...products]
     .sort(() => Math.random() - 0.5)
     .slice(0, 6);
@@ -27,7 +31,7 @@ function SampleProducts({
         {randomProducts.map((product) => (
           <Link
             key={product.id}
-            href={`/product-detail/${product.id}`}
+            href={`/products/${product.id}`}
             className="group rounded-xl overflow-hidden hover:bg-background hover:shadow-md transition-shadow hover:border hover:border-purple-500"
           >
             {/* รูปภาพ */}

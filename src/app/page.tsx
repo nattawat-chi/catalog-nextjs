@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main>
       <section className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Welcome to AllureMart</h1>
+        <h1 className="text-3xl font-bold">Welcome to AllureMart</h1>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
           Discover a modern selection of stylish, high-quality products designed
           to elevate your lifestyle — from sleek home decor and functional
@@ -21,7 +21,7 @@ export default function Home() {
         <section>
           <CarouselFunction
             searchQuery={searchQuery}
-            selectedCategory="Furniture"
+            selectedCategory="furniture"
           />
         </section>
         <SampleProducts

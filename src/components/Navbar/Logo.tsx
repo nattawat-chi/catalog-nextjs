@@ -1,15 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
 
 const Logo = () => {
   return (
-    <Link href="/" className="">
-      <img
+    <div className="block h-14 sm:h-16 md:h-20 w-auto mr-10">
+      <Image
         src="/logo.png"
         alt="Logo"
-        className="h-26 w-26 rounded-lg bg-zinc-900  shadow-lg hover:scale-105 transition-all"
+        width={160}
+        height={48}
+        className="scale-[2.2] h-full w-auto object-contain transition-all hover:brightness-110"
+        priority
       />
-    </Link>
+    </div>
   );
 };
 export default Logo;

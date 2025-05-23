@@ -17,7 +17,11 @@ function CarouselFunction({
   searchQuery: string;
   selectedCategory: string;
 }) {
-  const products = useFilteredProducts(searchQuery, selectedCategory);
+  const products = useFilteredProducts(
+    searchQuery,
+    selectedCategory,
+    1
+  ).products;
 
   return (
     <div className="w-full max-w-3xl mx-auto py-6">
@@ -27,7 +31,7 @@ function CarouselFunction({
             <CarouselItem key={product.id} className="flex justify-center">
               <div className="flex flex-col items-center gap-4 text-center">
                 <Link
-                  href={`/product-detail/${product.id}`}
+                  href={`/products/${product.id}`}
                   className="relative w-80 md:w-90 aspect-square rounded-xl overflow-hidden"
                 >
                   <Image

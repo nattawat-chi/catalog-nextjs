@@ -10,6 +10,7 @@
 !.yarn/releases
 !.yarn/versions
 
+*.zip
 # testing
 /coverage
 
@@ -39,3 +40,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+*.zip
