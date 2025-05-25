@@ -1,6 +1,6 @@
 "use client";
 
-import CarouselFunction from "@/components/CarouselFunction";
+import CarouselFunction from "@/components/Carousel";
 import SampleProducts from "@/components/SampleProducts";
 import { useState } from "react";
 

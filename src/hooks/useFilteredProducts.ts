@@ -17,7 +17,7 @@ const useFilteredProducts = (
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const limit = 6;
+  const limit = 9;
 
   useEffect(() => {
     const fetchProducts = async () => {

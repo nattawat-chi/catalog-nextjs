@@ -5,5 +5,5 @@ type NavLinks = {
 
 export const links: NavLinks[] = [
   { href: "/", label: "Home" },
-  { href: "/cart", label: "Cart" },
+  { href: "/products", label: "All products" },
 ];
