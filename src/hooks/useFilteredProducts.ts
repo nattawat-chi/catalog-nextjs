@@ -17,7 +17,7 @@ const useFilteredProducts = (
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const limit = 9;
+  const limit = 12;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,7 +38,7 @@ const useFilteredProducts = (
 
         const res = await fetch(url);
         const json = await res.json();
-        let results = json.products || [];
+        const results = json.products || [];
 
         setProducts(results);
         setTotal(json.total || results.length);

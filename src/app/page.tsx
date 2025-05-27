@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function Home() {
   // const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery] = useState("");
 
   return (
     <main>

@@ -17,6 +17,16 @@ import Link from "next/link";
 import useFilteredProducts from "@/hooks/useFilteredProducts";
 import { useSearchStore } from "@/hooks/useSearchStore";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 const ProductsDetails = ({
   selectedCategory,
 }: {
@@ -29,7 +39,7 @@ const ProductsDetails = ({
     selectedCategory,
     page
   );
-  const totalPages = Math.ceil(total / 6);
+  const totalPages = Math.ceil(total / 12);
   const [expandedProductIds, setExpandedProductIds] = useState<number[]>([]);
   const { isSignedIn } = useAuth();
   const { addToCart } = useCartStore();
@@ -72,15 +82,18 @@ const ProductsDetails = ({
               : product.description;
 
           return (
-            <Card key={product.id} className="min-w-64">
+            <Card
+              key={product.id}
+              className="gap-1 mb-4 min-w-64 max-w-105 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-300"
+            >
               <CardHeader>
                 <Link href={`/products/${product.id}`}>
                   <Image
                     src={product.images[0]}
                     alt={product.title}
-                    width={300}
-                    height={300}
-                    className="mx-auto mb-2"
+                    width={250}
+                    height={250}
+                    className="mx-auto scale-[1.1]"
                   />
                 </Link>
                 <Link href={`/product-detail/${product.id}`}>
@@ -101,7 +114,11 @@ const ProductsDetails = ({
                 </CardDescription>
                 <div className="mt-2">
                   <CardTitle>
-                    Category : <span>{product.category}</span>
+                    Category :{" "}
+                    <span>
+                      {product.category.charAt(0).toUpperCase() +
+                        product.category.slice(1)}
+                    </span>
                   </CardTitle>
                 </div>
               </CardHeader>
@@ -136,24 +153,90 @@ const ProductsDetails = ({
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center gap-4 mt-6">
-        <Button
-          className="cursor-pointer"
-          onClick={handlePrev}
-          disabled={page <= 1}
-        >
-          {"⮜"}
-        </Button>
-        <span className="self-center">
-          Page {page} of {totalPages}
-        </span>
-        <Button
-          className="cursor-pointer"
-          onClick={handleNext}
-          disabled={page >= totalPages}
-        >
-          {"⮞"}
-        </Button>
+      <div className="flex justify-center mt-6">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={handlePrev}
+                className={
+                  page <= 1
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+
+            {/* First page */}
+            {totalPages > 0 && page > 2 && (
+              <PaginationItem>
+                <PaginationLink
+                  onClick={() => setPage(1)}
+                  isActive={page === 1}
+                  className="cursor-pointer"
+                >
+                  1
+                </PaginationLink>
+              </PaginationItem>
+            )}
+
+            {/* Show ellipsis if there are many pages before current */}
+            {page > 3 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Current page and surrounding */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((pageNum) => {
+                if (totalPages <= 5) return true;
+                return Math.abs(pageNum - page) === 1 || pageNum === page;
+              })
+              .map((pageNum) => (
+                <PaginationItem key={pageNum}>
+                  <PaginationLink
+                    onClick={() => setPage(pageNum)}
+                    isActive={page === pageNum}
+                    className="cursor-pointer"
+                  >
+                    {pageNum}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+            {/* Show ellipsis if there are many pages after current */}
+            {page < totalPages - 2 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Last page */}
+            {totalPages > 1 && page < totalPages - 2 && (
+              <PaginationItem>
+                <PaginationLink
+                  onClick={() => setPage(totalPages)}
+                  isActive={page === totalPages}
+                  className="cursor-pointer"
+                >
+                  {totalPages}
+                </PaginationLink>
+              </PaginationItem>
+            )}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={handleNext}
+                className={
+                  page >= totalPages
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

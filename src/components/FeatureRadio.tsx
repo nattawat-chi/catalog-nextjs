@@ -47,13 +47,13 @@ const FeatureRadio = ({
               Laptops
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mens-shirts">
-              Men's Shirts
+              Men&apos;s Shirts
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mens-shoes">
-              Men's Shoes
+              Men&apos;s Shoes
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mens-watches">
-              Men's Watches
+              Men&apos;s Watches
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="mobile-accessories">
               Mobile Accessories
@@ -81,19 +81,19 @@ const FeatureRadio = ({
               Vehicle
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-bags">
-              Women's Bags
+              Women&apos;s Bags
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-dresses">
-              Women's Dresses
+              Women&apos;s Dresses
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-jewellery">
-              Women's Jewellery
+              Women&apos;s Jewellery
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-shoes">
-              Women's Shoes
+              Women&apos;s Shoes
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="womens-watches">
-              Women's Watches
+              Women&apos;s Watches
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
