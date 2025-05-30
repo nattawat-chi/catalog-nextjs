@@ -1,57 +1,67 @@
-import { useEffect, useState } from "react";
-import useDebounce from "@/hooks/useDebounce";
-import { Product } from "@/types/ProductsType";
+import { useState, useEffect } from "react";
+
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+}
 
 interface UseFilteredProductsResult {
   products: Product[];
-  total: number;
   loading: boolean;
+  total: number;
 }
 
 const useFilteredProducts = (
   searchQuery: string,
   selectedCategory: string,
-  page: number = 1
+  page: number
 ): UseFilteredProductsResult => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
-  const limit = 12;
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const skip = (page - 1) * limit;
+        let url = `https://dummyjson.com/products?limit=12&skip=${
+          (page - 1) * 12
+        }`;
 
-        const url =
-          selectedCategory && !debouncedSearchQuery.trim()
-            ? `https://dummyjson.com/products/category/${encodeURIComponent(
-                selectedCategory
-              )}?limit=${limit}&skip=${skip}`
-            : debouncedSearchQuery.trim()
-            ? `https://dummyjson.com/products/search?q=${encodeURIComponent(
-                debouncedSearchQuery
-              )}&limit=${limit}&skip=${skip}`
-            : `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+        // Add search query if present
+        if (searchQuery) {
+          url = `https://dummyjson.com/products/search?q=${searchQuery}&limit=12&skip=${
+            (page - 1) * 12
+          }`;
+        }
 
-        const res = await fetch(url);
-        const json = await res.json();
-        const results = json.products || [];
+        // Use category endpoint if selected
+        if (selectedCategory) {
+          url = `https://dummyjson.com/products/category/${selectedCategory}?limit=12&skip=${
+            (page - 1) * 12
+          }`;
+        }
 
-        setProducts(results);
-        setTotal(json.total || results.length);
-        setLoading(false);
-      } catch (err) {
-        console.error("Fetch error:", err);
+        const response = await fetch(url);
+        const data = await response.json();
+
+        setProducts(data.products);
+        setTotal(data.total);
+      } catch (error) {
+        console.error("Error fetching products:", error);
         setProducts([]);
+        setTotal(0);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [debouncedSearchQuery, selectedCategory, page]);
+  }, [searchQuery, selectedCategory, page]);
 
   return { products, loading, total };
 };

@@ -3,16 +3,16 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <div className="block h-14 sm:h-16 md:h-20 w-auto mr-10">
+    <Link href="/">
       <Image
-        src="/logo.png"
+        src="/NewLogo.png"
         alt="Logo"
-        width={160}
-        height={48}
-        className="scale-[2.2] h-full w-auto object-contain transition-all hover:brightness-110"
+        width={210}
+        height={50}
+        className="object-contain transition-all hover:brightness-110"
         priority
       />
-    </div>
+    </Link>
   );
 };
 export default Logo;

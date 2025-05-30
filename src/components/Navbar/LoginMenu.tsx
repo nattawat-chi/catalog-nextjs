@@ -1,3 +1,5 @@
+"use client";
+
 import { AlignLeft } from "lucide-react";
 import {
   DropdownMenu,
@@ -14,6 +16,7 @@ import { links } from "../../../utils/links";
 //sign in sign out
 import SignOutLinks from "./SignOutLinks";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import React from "react";
 
 const DropdownListMenu = () => {
   return (

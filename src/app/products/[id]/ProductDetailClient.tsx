@@ -51,7 +51,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           Category: <span className="capitalize">{product.category}</span>
         </p>
 
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex gap-4 mb-4 ">
           {isSignedIn && (
             <>
               <Input
