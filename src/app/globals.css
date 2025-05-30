@@ -99,38 +99,104 @@
 }
 
 .dark {
-  /* Dark theme - Luxurious and elegant */
-  --background: oklch(0.12 0.02 280);
-  --foreground: oklch(0.95 0.02 280);
-  --card: oklch(0.15 0.02 280);
-  --card-foreground: oklch(0.95 0.02 280);
-  --popover: oklch(0.15 0.02 280);
-  --popover-foreground: oklch(0.95 0.02 280);
-  --primary: oklch(0.7 0.2 280);
-  --primary-foreground: oklch(0.12 0.02 280);
-  --secondary: oklch(0.2 0.05 280);
-  --secondary-foreground: oklch(0.95 0.02 280);
-  --muted: oklch(0.2 0.05 280);
-  --muted-foreground: oklch(0.7 0.1 280);
-  --accent: oklch(0.2 0.05 280);
-  --accent-foreground: oklch(0.95 0.02 280);
-  --destructive: oklch(0.7 0.3 30);
-  --border: oklch(0.3 0.05 280);
-  --input: oklch(0.2 0.05 280);
-  --ring: oklch(0.7 0.2 280);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.541 0.281 293.009);
-  --sidebar-primary-foreground: oklch(0.969 0.016 293.756);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.541 0.281 293.009);
+  /* Dark theme - GitHub style */
+  --background: #0d1117; /* GitHub dark background */
+  --foreground: #c9d1d9; /* GitHub text color */
+  --card: #161b22; /* GitHub card/container background */
+  --card-foreground: #c9d1d9;
+  --popover: #161b22;
+  --popover-foreground: #c9d1d9;
+  --primary: #58a6ff; /* GitHub blue */
+  --primary-foreground: #ffffff;
+  --secondary: #21262d; /* GitHub secondary background */
+  --secondary-foreground: #c9d1d9;
+  --muted: #21262d;
+  --muted-foreground: #8b949e; /* GitHub muted text */
+  --accent: #1f6feb; /* GitHub accent blue */
+  --accent-foreground: #ffffff;
+  --destructive: #f85149; /* GitHub red */
+  --border: #30363d; /* GitHub border color */
+  --input: #0d1117;
+  --ring: #58a6ff;
+}
+
+/* Modern background pattern for dark mode */
+.dark body {
+  background: #0d1117;
+  position: relative;
+}
+
+.dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+      circle at 50% 0%,
+      rgba(88, 166, 255, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(88, 166, 255, 0.05) 0%,
+      transparent 40%
+    );
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark main {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced card styling for dark mode */
+.dark [data-slot="card"] {
+  background: #161b22;
+  border: 1px solid #30363d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark [data-slot="card"]:hover {
+  border-color: #58a6ff50;
+  box-shadow: 0 4px 15px rgba(88, 166, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Dark mode button enhancements */
+.dark button,
+.dark a[role="button"] {
+  background: #21262d;
+  border: 1px solid #30363d;
+}
+
+.dark button:hover,
+.dark a[role="button"]:hover {
+  background: #30363d;
+  border-color: #8b949e;
+}
+
+/* Dark mode input field enhancements */
+.dark input,
+.dark textarea,
+.dark select {
+  background: #0d1117;
+  border: 1px solid #30363d;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.15);
+}
+
+/* Dark mode text gradient for headings */
+.dark h1.bg-gradient-to-r {
+  background: linear-gradient(to right, #58a6ff 0%, #1f6feb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @layer base {

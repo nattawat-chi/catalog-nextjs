@@ -5,6 +5,7 @@ import Search from "@/components/Search";
 import { useSearchStore } from "@/hooks/useSearchStore";
 import FeatureRadio from "@/components/FeatureRadio";
 import { useState } from "react";
+import MarqueeProducts from "@/components/Marquee";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -12,7 +13,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <section className="py-16 md:py-24 flex flex-col items-center justify-center text-center">
+      <section className="py-10 md:py-14 flex flex-col items-center justify-center text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             Welcome to AllureMart
@@ -38,6 +39,7 @@ export default function Home() {
           <ProductsDetails selectedCategory={selectedCategory} />
         </div>
       </section>
+      <MarqueeProducts />
     </main>
   );
 }

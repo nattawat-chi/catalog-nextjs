@@ -18,7 +18,9 @@ interface UseFilteredProductsResult {
 const useFilteredProducts = (
   searchQuery: string,
   selectedCategory: string,
-  page: number
+  page: number,
+  sortBy: string = "name",
+  sortOrder: string = "asc"
 ): UseFilteredProductsResult => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,8 +50,21 @@ const useFilteredProducts = (
 
         const response = await fetch(url);
         const data = await response.json();
+        const sortedProducts = [...data.products];
 
-        setProducts(data.products);
+        // Apply sorting
+        sortedProducts.sort((a, b) => {
+          if (sortBy === "name") {
+            return sortOrder === "asc"
+              ? a.title.localeCompare(b.title)
+              : b.title.localeCompare(a.title);
+          } else if (sortBy === "price") {
+            return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
+          }
+          return 0;
+        });
+
+        setProducts(sortedProducts);
         setTotal(data.total);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -61,7 +76,7 @@ const useFilteredProducts = (
     };
 
     fetchProducts();
-  }, [searchQuery, selectedCategory, page]);
+  }, [searchQuery, selectedCategory, page, sortBy, sortOrder]);
 
   return { products, loading, total };
 };

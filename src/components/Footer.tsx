@@ -29,7 +29,7 @@ function Footer() {
               <li>
                 <Link
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  href="/categories/furniture"
+                  href="/products?category=furniture"
                 >
                   Furniture
                 </Link>
@@ -37,7 +37,7 @@ function Footer() {
               <li>
                 <Link
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  href="/categories/kitchen"
+                  href="/products?category=kitchen-accessories"
                 >
                   Kitchen
                 </Link>
@@ -80,19 +80,19 @@ function Footer() {
             <div className="flex space-x-6">
               <Link
                 href="https://facebook.com"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 transform duration-200"
               >
                 <FaFacebook className="w-6 h-6" />
               </Link>
               <Link
                 href="https://instagram.com"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 transform duration-200"
               >
                 <FaInstagram className="w-6 h-6" />
               </Link>
               <Link
                 href="https://twitter.com"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 transform duration-200"
               >
                 <FaTwitter className="w-6 h-6" />
               </Link>
@@ -101,8 +101,8 @@ function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-muted/50 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} AllureMart. Built with Next.js and
-          Tailwind CSS.
+          © {new Date().getFullYear()} AllureMart. Built by Nattawat
+          Chitaphonphan.
         </div>
       </div>
     </footer>

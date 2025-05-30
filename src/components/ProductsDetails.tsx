@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 
 import Image from "next/image";
@@ -21,8 +22,12 @@ import {
 
 const ProductsDetails = ({
   selectedCategory,
+  sortBy = "name",
+  sortOrder = "asc",
 }: {
   selectedCategory: string;
+  sortBy?: string;
+  sortOrder?: string;
 }) => {
   const { searchQuery } = useSearchStore();
   const pathname = usePathname();
@@ -30,17 +35,36 @@ const ProductsDetails = ({
   const { products, loading, total } = useFilteredProducts(
     searchQuery,
     selectedCategory,
-    page
+    page,
+    sortBy,
+    sortOrder
   );
   const totalPages = Math.ceil(total / 12);
 
-  const handleNext = () => page < totalPages && setPage((p) => p + 1);
-  const handlePrev = () => page > 1 && setPage((p) => p - 1);
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleNext = () => page < totalPages && handlePageChange(page + 1);
+  const handlePrev = () => page > 1 && handlePageChange(page - 1);
 
   if (loading) {
     return (
-      <div className="p-6 text-center text-lg text-purple-400">
-        Loading products...
+      <div className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(12)].map((_, index) => (
+            <Card key={index} className="mb-4 min-w-64 max-w-105">
+              <CardHeader>
+                <Skeleton className="h-[250px] w-[250px] mx-auto" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[100px]" />
+                </div>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }

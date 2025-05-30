@@ -46,7 +46,7 @@ export default function NavigationMenuDemo() {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link href="/about-us" className={navigationMenuTriggerStyle()}>
+            <Link href="/about" className={navigationMenuTriggerStyle()}>
               About Us
             </Link>
           </NavigationMenuLink>
