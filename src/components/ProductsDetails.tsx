@@ -84,7 +84,7 @@ const ProductsDetails = ({
           return (
             <Card
               key={product.id}
-              className=" mb-4 min-w-64 max-w-105 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-300"
+              className=" mb-4 min-w-64 max-w-105 transition-all duration-300 hover:scale-[1.01] hover:shadow-lg "
             >
               <CardHeader>
                 <Link href={`/products/${product.id}`}>

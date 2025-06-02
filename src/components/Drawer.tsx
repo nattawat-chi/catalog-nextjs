@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { ShoppingCart } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,9 +19,17 @@ import { useCartStore } from "@/store/useCartStore";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export function DrawerDemo() {
-  const { cart, removeFromCart, clearCart } = useCartStore();
+  const { cart, removeFromCart, clearCart, setIsAuthenticated } =
+    useCartStore();
+  const { isSignedIn } = useAuth();
+
+  useEffect(() => {
+    setIsAuthenticated(isSignedIn || false);
+  }, [isSignedIn, setIsAuthenticated]);
+
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -31,8 +41,8 @@ export function DrawerDemo() {
       <DrawerTrigger asChild>
         <Button variant="outline" className="relative cursor-pointer">
           <ShoppingCart />
-          {totalItems > 0 && (
-            <span className=" absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-2 py-[2px] rounded-full">
+          {isSignedIn && totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-2 py-[2px] rounded-full">
               {totalItems}
             </span>
           )}
@@ -46,7 +56,16 @@ export function DrawerDemo() {
 
           {/* Scrollable body */}
           <div className="overflow-y-auto flex-1 px-4">
-            {cart.length === 0 ? (
+            {!isSignedIn ? (
+              <div className="text-center py-8">
+                <p className="text-gray-400 mb-4">
+                  Please sign in to use the cart
+                </p>
+                <SignInButton mode="modal">
+                  <Button variant="outline">Sign In</Button>
+                </SignInButton>
+              </div>
+            ) : cart.length === 0 ? (
               <p className="text-gray-400">No products in the cart.</p>
             ) : (
               <div className="grid gap-4 pb-3">
@@ -114,7 +133,7 @@ export function DrawerDemo() {
               </div>
             )}
           </div>
-          {/* Footer (fiexd at bottom) */}
+          {/* Footer (fixed at bottom) */}
           <DrawerFooter className="shrink-0 border-t">
             <DrawerClose asChild>
               <Button variant="outline">Close</Button>
