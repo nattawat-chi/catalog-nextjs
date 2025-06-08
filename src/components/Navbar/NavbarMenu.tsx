@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 // import { Icons } from "@/components/icons";
 import {
@@ -16,6 +16,10 @@ import {
 } from "@/components/ui/navigation-menu";
 
 export default function NavigationMenuDemo() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentCategory = searchParams.get("category");
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -23,23 +27,31 @@ export default function NavigationMenuDemo() {
           <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="flex flex-col items-start md:w-[100px] lg:w-[150px]">
-              <ListItem href="/products" title="All Products"></ListItem>
+              <ListItem
+                href="/products"
+                title="All Products"
+                isActive={pathname === "/products" && !currentCategory}
+              />
               <ListItem
                 href="/products?category=beauty"
                 title="Beauty"
-              ></ListItem>
+                isActive={currentCategory === "beauty"}
+              />
               <ListItem
                 href="/products?category=womens-dresses"
                 title="Women's Dresses"
-              ></ListItem>
+                isActive={currentCategory === "womens-dresses"}
+              />
               <ListItem
                 href="/products?category=mens-shirts"
                 title="Men's Shirts"
-              ></ListItem>
+                isActive={currentCategory === "mens-shirts"}
+              />
               <ListItem
                 href="/products?category=smartphones"
                 title="Smartphones"
-              ></ListItem>
+                isActive={currentCategory === "smartphones"}
+              />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -56,28 +68,37 @@ export default function NavigationMenuDemo() {
   );
 }
 
-const ListItem = React.forwardRef<
-  React.ComponentRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </div>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+interface ListItemProps {
+  href: string;
+  title: string;
+  isActive?: boolean;
+  children?: React.ReactNode;
+}
+
+const ListItem = React.forwardRef<HTMLAnchorElement, ListItemProps>(
+  ({ href, title, children, isActive, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <Link
+            ref={ref}
+            href={href}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              isActive && "bg-accent text-accent-foreground"
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            {children && (
+              <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                {children}
+              </div>
+            )}
+          </Link>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
+);
 ListItem.displayName = "ListItem";

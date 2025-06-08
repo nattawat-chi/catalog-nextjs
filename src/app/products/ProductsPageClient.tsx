@@ -43,9 +43,9 @@ export default function ProductsPageClient() {
 
   return (
     <div>
-      <div className="flex flex-col justify-between md:flex-row items-center px-4 gap-4 mt-5 mb-3">
+      <div className="flex flex-col  justify-between md:flex-row items-center px-4 gap-4 mt-5 mb-3">
         {/* Category */}
-        <div className="w-1/2">
+        <div className="flex justify-center md:justify-start w-1/2">
           <FeatureRadio
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}
@@ -53,12 +53,12 @@ export default function ProductsPageClient() {
         </div>
 
         {/* Search */}
-        <div className="w-1/2">
+        <div className="w-3/4 md:w-1/2">
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </div>
 
         {/* Sort */}
-        <div className="w-1/2 flex gap-2 justify-end">
+        <div className="w-1/2 flex gap-2 justify-center md:justify-end">
           <Button
             onClick={() => handleSort("name")}
             className={`px-3 py-1 rounded ${sortBy === "name"}`}

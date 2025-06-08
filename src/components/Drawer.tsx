@@ -22,13 +22,24 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 
 export function DrawerDemo() {
-  const { cart, removeFromCart, clearCart, setIsAuthenticated } =
+  const { cart, removeFromCart, clearCart, setIsAuthenticated, hydrated } =
     useCartStore();
   const { isSignedIn } = useAuth();
 
   useEffect(() => {
-    setIsAuthenticated(isSignedIn || false);
-  }, [isSignedIn, setIsAuthenticated]);
+    if (hydrated) {
+      setIsAuthenticated(isSignedIn || false);
+    }
+  }, [isSignedIn, setIsAuthenticated, hydrated]);
+
+  // Don't render anything until hydration is complete
+  if (!hydrated) {
+    return (
+      <Button variant="outline" className="relative cursor-pointer">
+        <ShoppingCart />
+      </Button>
+    );
+  }
 
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,

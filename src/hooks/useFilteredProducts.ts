@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  images: string[];
-}
+import { Product, ProductsResponse } from "@/types/Product";
+import { API_ENDPOINTS, PRODUCTS_PER_PAGE } from "@/constants/config";
 
 interface UseFilteredProductsResult {
   products: Product[];
@@ -30,29 +23,28 @@ const useFilteredProducts = (
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let url = `https://dummyjson.com/products?limit=12&skip=${
-          (page - 1) * 12
+        let url = `${API_ENDPOINTS.products}?limit=${PRODUCTS_PER_PAGE}&skip=${
+          (page - 1) * PRODUCTS_PER_PAGE
         }`;
 
-        // Add search query if present
         if (searchQuery) {
-          url = `https://dummyjson.com/products/search?q=${searchQuery}&limit=12&skip=${
-            (page - 1) * 12
+          url = `${
+            API_ENDPOINTS.search
+          }?q=${searchQuery}&limit=${PRODUCTS_PER_PAGE}&skip=${
+            (page - 1) * PRODUCTS_PER_PAGE
           }`;
         }
 
-        // Use category endpoint if selected
         if (selectedCategory) {
-          url = `https://dummyjson.com/products/category/${selectedCategory}?limit=12&skip=${
-            (page - 1) * 12
-          }`;
+          url = `${API_ENDPOINTS.category(
+            selectedCategory
+          )}?limit=${PRODUCTS_PER_PAGE}&skip=${(page - 1) * PRODUCTS_PER_PAGE}`;
         }
 
         const response = await fetch(url);
-        const data = await response.json();
+        const data: ProductsResponse = await response.json();
         const sortedProducts = [...data.products];
 
-        // Apply sorting
         sortedProducts.sort((a, b) => {
           if (sortBy === "name") {
             return sortOrder === "asc"

@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <section className="py-10 md:py-14 flex flex-col items-center justify-center text-center">
+      <section className="py-10 md:py-14 text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             Welcome to AllureMart
@@ -35,7 +35,7 @@ export default function Home() {
       </section>
 
       <section className="py-12 bg-muted/30 backdrop-blur-sm">
-        <div className="container">
+        <div className="">
           <ProductsDetails selectedCategory={selectedCategory} />
         </div>
       </section>

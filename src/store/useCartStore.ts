@@ -1,6 +1,6 @@
 // hooks/useCartStore.ts
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { CartItem } from "@/types/CartItem";
 
 interface CartState {
@@ -10,23 +10,34 @@ interface CartState {
   clearCart: () => void;
   isAuthenticated: boolean;
   setIsAuthenticated: (status: boolean) => void;
+  hydrated: boolean;
+  setHydrated: (state: boolean) => void;
 }
+
+const initialState = {
+  cart: [],
+  isAuthenticated: false,
+  hydrated: false,
+};
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
-      cart: [],
-      isAuthenticated: false,
+      ...initialState,
+      setHydrated: (state) => {
+        set({ hydrated: state });
+      },
       setIsAuthenticated: (status) => {
-        set({ isAuthenticated: status });
-        if (!status) {
-          // Clear cart when user signs out
-          set({ cart: [] });
+        if (get().hydrated) {
+          set({ isAuthenticated: status });
+          if (!status) {
+            set({ cart: [] });
+          }
         }
       },
       addToCart: (item) => {
-        if (!get().isAuthenticated) {
-          return; // Don't add to cart if not authenticated
+        if (!get().isAuthenticated || !get().hydrated) {
+          return;
         }
         const existing = get().cart.find((i) => i.id === item.id);
         if (existing) {
@@ -42,18 +53,31 @@ export const useCartStore = create<CartState>()(
         }
       },
       removeFromCart: (id) => {
-        if (!get().isAuthenticated) {
-          return; // Don't remove from cart if not authenticated
+        if (!get().isAuthenticated || !get().hydrated) {
+          return;
         }
         set({ cart: get().cart.filter((item) => item.id !== id) });
       },
       clearCart: () => {
-        if (!get().isAuthenticated) {
-          return; // Don't clear cart if not authenticated
+        if (!get().isAuthenticated || !get().hydrated) {
+          return;
         }
         set({ cart: [] });
       },
     }),
-    { name: "cart-storage" } // ใช้ localStorage
+    {
+      name: "cart-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        cart: state.cart,
+        isAuthenticated: state.isAuthenticated,
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.setHydrated(true);
+        }
+      },
+      version: 1, // Add version for future migrations if needed
+    }
   )
 );

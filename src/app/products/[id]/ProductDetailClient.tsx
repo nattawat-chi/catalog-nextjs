@@ -12,17 +12,24 @@ import { useAuth } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
 
 export default function ProductDetailClient({ product }: { product: Product }) {
-  const { addToCart, setIsAuthenticated } = useCartStore();
+  const { addToCart, setIsAuthenticated, hydrated } = useCartStore();
   const [quantity, setQuantity] = useState(1);
   const { isSignedIn } = useAuth();
 
   useEffect(() => {
-    setIsAuthenticated(isSignedIn || false);
-  }, [isSignedIn, setIsAuthenticated]);
+    if (hydrated) {
+      setIsAuthenticated(isSignedIn || false);
+    }
+  }, [isSignedIn, setIsAuthenticated, hydrated]);
 
   const handleAddToCart = () => {
     if (!isSignedIn) {
       toast.error("Please sign in to add items to cart");
+      return;
+    }
+
+    if (!hydrated) {
+      toast.error("Please wait while we initialize your cart");
       return;
     }
 
@@ -82,6 +89,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               <Button
                 onClick={handleAddToCart}
                 className="cursor-pointer px-4 py-2 mb-2"
+                disabled={!hydrated}
               >
                 Add to Cart
               </Button>
