@@ -101,8 +101,7 @@ function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-muted/50 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} AllureMart. Built by Nattawat
-          Chitaphonphan.
+          © {new Date().getFullYear()} AllureMart. All rights reserved.
         </div>
       </div>
     </footer>

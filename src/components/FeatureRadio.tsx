@@ -120,7 +120,7 @@ const FeatureRadio = ({
           <RadioGroup
             defaultValue={selectedCategory}
             onValueChange={onCategoryChange}
-            className="flex items-center gap-2"
+            className="flex flex-col sm:flex-row items-center gap-2"
           >
             <div className=" flex items-center space-x-2">
               <RadioGroupItem
@@ -143,19 +143,19 @@ const FeatureRadio = ({
               </Label>
             </div>
             <div className=" flex items-center space-x-2">
-              <div className=" flex items-center space-x-2">
-                <RadioGroupItem
-                  id="radio-mobile-accessories"
-                  className="cursor-pointer"
-                  value="mobile-accessories"
-                />
-                <Label
-                  className="cursor-pointer"
-                  htmlFor="radio-mobile-accessories"
-                >
-                  Mobile Accessories
-                </Label>
-              </div>
+              <RadioGroupItem
+                id="radio-mobile-accessories"
+                className="cursor-pointer"
+                value="mobile-accessories"
+              />
+              <Label
+                className="cursor-pointer"
+                htmlFor="radio-mobile-accessories"
+              >
+                Mobile Accessories
+              </Label>
+            </div>
+            <div className=" flex items-center space-x-2">
               <RadioGroupItem
                 id="radio-motorcycle"
                 className="cursor-pointer"
