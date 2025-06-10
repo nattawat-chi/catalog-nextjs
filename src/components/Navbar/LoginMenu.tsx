@@ -1,3 +1,5 @@
+"use client";
+
 import { AlignLeft } from "lucide-react";
 import {
   DropdownMenu,
@@ -14,11 +16,12 @@ import { links } from "../../../utils/links";
 //sign in sign out
 import SignOutLinks from "./SignOutLinks";
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import React from "react";
 
 const DropdownListMenu = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className="cursor-pointer" asChild>
         <Button variant="outline">
           <AlignLeft />
           <UserIcon />
@@ -32,12 +35,12 @@ const DropdownListMenu = () => {
         <SignedOut>
           <DropdownMenuItem>
             <SignInButton mode="modal">
-              <button>Login</button>
+              <button className="w-full">Login</button>
             </SignInButton>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <SignUpButton mode="modal">
-              <button>Register</button>
+              <button className="w-full">Register</button>
             </SignUpButton>
           </DropdownMenuItem>
         </SignedOut>
@@ -46,9 +49,11 @@ const DropdownListMenu = () => {
         <SignedIn>
           {links.map((item, index) => {
             return (
-              <DropdownMenuItem key={index}>
-                <Link href={item.href}>{item.label}</Link>
-              </DropdownMenuItem>
+              <Link href={item.href} key={index}>
+                <DropdownMenuItem className="cursor-pointer">
+                  {item.label}
+                </DropdownMenuItem>
+              </Link>
             );
           })}
           <DropdownMenuSeparator />

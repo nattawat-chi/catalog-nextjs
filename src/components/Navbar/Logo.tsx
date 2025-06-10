@@ -1,13 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
 
 const Logo = () => {
   return (
-    <Button size="sm">
-      <Link href="/" className="text-2xl">
-        Logo
-      </Link>
-    </Button>
+    <Link href="/">
+      <Image
+        src="/NewLogo.png"
+        alt="Logo"
+        width={210}
+        height={50}
+        className="object-contain transition-all hover:brightness-110"
+        priority
+      />
+    </Link>
   );
 };
 export default Logo;

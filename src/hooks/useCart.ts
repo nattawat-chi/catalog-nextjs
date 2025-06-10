@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { CartItem } from "@/types/CartItem";
 
 const CART_KEY = "shopping-cart";
@@ -9,24 +9,26 @@ export function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
+  console.log("your cart", cart);
+
+  // Load cart data from localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCart = localStorage.getItem(CART_KEY);
-      if (storedCart) {
-        try {
-          const parsed = JSON.parse(storedCart);
-          console.log("📦 Parsed cart from localStorage:", parsed);
-          setCart(parsed);
-        } catch (err) {
-          console.error("❌ Failed to parse cart:", err);
-        }
-      } else {
-        console.log("📦 No cart data in localStorage.");
+    const storedCart = localStorage.getItem(CART_KEY);
+    if (storedCart) {
+      try {
+        const parsed = JSON.parse(storedCart);
+        console.log("📦 Parsed cart from localStorage:", parsed);
+        setCart(parsed);
+      } catch (err) {
+        console.error("❌ Failed to parse cart:", err);
       }
-      setLoaded(true);
+    } else {
+      console.log("📦 No cart data in localStorage.");
     }
+    setLoaded(true);
   }, []);
 
+  // Save cart data to localStorage
   useEffect(() => {
     if (loaded) {
       // console.log("💾 Saving to localStorage:", cart); // ✅ ดูว่าเก็บถูกไหม
@@ -57,5 +59,10 @@ export function useCart() {
 
   const clearCart = () => setCart([]);
 
-  return { cart, addToCart, removeFromCart, clearCart };
+  // Don't render anything until the cart is loaded
+  if (!loaded) {
+    return { cart: [], addToCart, removeFromCart, clearCart, loaded };
+  }
+
+  return { cart, addToCart, removeFromCart, clearCart, loaded };
 }

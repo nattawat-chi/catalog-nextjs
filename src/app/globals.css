@@ -1,15 +1,27 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 @layer components {
   .container {
-    @apply px-8 mx-auto;
+    @apply px-4 sm:px-6 lg:px-12 mx-auto max-w-7xl;
   }
+}
+.playfair-display {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
 }
 
 @theme inline {
+  --geist-font: "Playfair Display", sans-serif;
+  --geist-font-mono: "Playfair Display", monospace;
+  --geist-font-sans: "Playfair Display", sans-serif;
+  --geist-font-mono: "Playfair Display", monospace;
+  --geist-font-serif: "Playfair Display", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -52,24 +64,25 @@
 }
 :root {
   --radius: 0.5rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
+  /* Light theme - Minimal and cool */
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.2 0.005 285.823);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
+  --card-foreground: oklch(0.2 0.005 285.823);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.606 0.25 292.717);
-  --primary-foreground: oklch(0.969 0.016 293.756);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.2 0.005 285.823);
+  --primary: oklch(0.5 0.18 250);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.96 0.03 250);
+  --secondary-foreground: oklch(0.2 0.005 285.885);
+  --muted: oklch(0.96 0.02 250);
+  --muted-foreground: oklch(0.55 0.02 285.938);
+  --accent: oklch(0.96 0.03 250);
+  --accent-foreground: oklch(0.2 0.005 285.885);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.606 0.25 292.717);
+  --border: oklch(0.9 0.02 250);
+  --input: oklch(0.9 0.02 250);
+  --ring: oklch(0.5 0.18 250);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -86,35 +99,197 @@
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.541 0.281 293.009);
-  --primary-foreground: oklch(0.969 0.016 293.756);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.541 0.281 293.009);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.541 0.281 293.009);
-  --sidebar-primary-foreground: oklch(0.969 0.016 293.756);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.541 0.281 293.009);
+  /* Dark theme - GitHub style */
+  --background: #0d1117; /* GitHub dark background */
+  --foreground: #c9d1d9; /* GitHub text color */
+  --card: #161b22; /* GitHub card/container background */
+  --card-foreground: #c9d1d9;
+  --popover: #161b22;
+  --popover-foreground: #c9d1d9;
+  --primary: #58a6ff; /* GitHub blue */
+  --primary-foreground: #ffffff;
+  --secondary: #21262d; /* GitHub secondary background */
+  --secondary-foreground: #c9d1d9;
+  --muted: #21262d;
+  --muted-foreground: #8b949e; /* GitHub muted text */
+  --accent: #1f6feb; /* GitHub accent blue */
+  --accent-foreground: #ffffff;
+  --destructive: #f85149; /* GitHub red */
+  --border: #30363d; /* GitHub border color */
+  --input: #0d1117;
+  --ring: #58a6ff;
+}
+
+/* Modern background pattern for dark mode */
+.dark body {
+  background: #0d1117;
+  position: relative;
+}
+
+.dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+      circle at 50% 0%,
+      rgba(88, 166, 255, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(88, 166, 255, 0.05) 0%,
+      transparent 40%
+    );
+  opacity: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark main {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced card styling for dark mode */
+.dark [data-slot="card"] {
+  background: #161b22;
+  border: 1px solid #30363d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark [data-slot="card"]:hover {
+  border-color: #58a6ff50;
+  box-shadow: 0 4px 15px rgba(88, 166, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Dark mode button enhancements */
+.dark button,
+.dark a[role="button"] {
+  background: #21262d;
+  border: 1px solid #30363d;
+}
+
+.dark button:hover,
+.dark a[role="button"]:hover {
+  background: #30363d;
+  border-color: #8b949e;
+}
+
+/* Dark mode input field enhancements */
+.dark input,
+.dark textarea,
+.dark select {
+  background: #0d1117;
+  border: 1px solid #30363d;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.15);
+}
+
+/* Dark mode text gradient for headings */
+.dark h1.bg-gradient-to-r {
+  background: linear-gradient(to right, #58a6ff 0%, #1f6feb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Enhanced typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold tracking-tight;
+}
+
+h1 {
+  @apply text-4xl sm:text-5xl md:text-6xl;
+}
+
+h2 {
+  @apply text-3xl sm:text-4xl md:text-5xl;
+}
+
+h3 {
+  @apply text-2xl sm:text-3xl md:text-4xl;
+}
+
+/* Enhanced button hover effects */
+button,
+a[role="button"] {
+  @apply transition-all duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98];
+}
+
+/* Card enhancements */
+[data-slot="card"] {
+  @apply transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/5;
+  backdrop-filter: blur(10px);
+}
+
+/* Input field enhancements */
+input,
+textarea,
+select {
+  @apply transition-all duration-200;
+}
+
+/* Dark mode specific enhancements */
+.dark [data-slot="card"] {
+  background: linear-gradient(
+    145deg,
+    var(--card) 0%,
+    oklch(0.13 0.02 280) 100%
+  );
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode specific enhancements */
+[data-slot="card"] {
+  background: linear-gradient(
+    145deg,
+    var(--card) 0%,
+    oklch(0.96 0.01 250) 100%
+  );
 }
