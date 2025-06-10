@@ -8,7 +8,7 @@ const Logo = () => {
         src="/NewLogo.png"
         alt="Logo"
         width={210}
-        height={50}
+        height={48}
         className="object-contain transition-all hover:brightness-110"
         priority
       />

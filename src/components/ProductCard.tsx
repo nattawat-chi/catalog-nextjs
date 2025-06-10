@@ -18,12 +18,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             width={250}
             height={250}
             className="mx-auto scale-[1.1]"
+            priority
           />
         </Link>
-        <Link
-          href={`/product-detail/${product.id}`}
-          className="flex justify-between"
-        >
+        <Link href={`/products/${product.id}`} className="flex justify-between">
           <CardTitle className="text-lg hover:text-purple-300 transition-colors duration-200">
             {product.title}
           </CardTitle>
