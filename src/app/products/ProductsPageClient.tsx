@@ -3,25 +3,27 @@
 import ProductsDetails from "@/components/ProductsDetails";
 import FeatureRadio from "@/components/FeatureRadio";
 import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Search from "@/components/Search";
 import { useSearchStore } from "@/hooks/useSearchStore";
 import { Button } from "@/components/ui/button";
 
-export default function ProductsPageClient() {
-  const searchParams = useSearchParams();
+interface ProductsPageClientProps {
+  initialCategory: string;
+}
+
+export default function ProductsPageClient({
+  initialCategory,
+}: ProductsPageClientProps) {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const { searchQuery, setSearchQuery } = useSearchStore();
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    const category = searchParams.get("category");
-    if (category) {
-      setSelectedCategory(category);
-    }
-  }, [searchParams]);
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);

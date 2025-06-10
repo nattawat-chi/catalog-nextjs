@@ -14,8 +14,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Suspense } from "react";
 
-export default function NavigationMenuDemo() {
+function NavbarMenuContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
@@ -65,6 +66,14 @@ export default function NavigationMenuDemo() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
+  );
+}
+
+export default function NavigationMenuDemo() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavbarMenuContent />
+    </Suspense>
   );
 }
 
