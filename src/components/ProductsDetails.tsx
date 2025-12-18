@@ -82,8 +82,14 @@ const ProductsDetails = ({
           totalPages={totalPages}
           visiblePages={visiblePages}
           onPageChange={handlePageChange}
-          onNext={handleNext}
-          onPrev={handlePrev}
+          onNext={() => {
+            handleNext();
+            setCurrentPage((prev) => prev + 1);
+          }}
+          onPrev={() => {
+            handlePrev();
+            setCurrentPage((prev) => prev - 1);
+          }}
           canNext={canNext}
           canPrev={canPrev}
         />
